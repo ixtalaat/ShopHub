@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace myshop.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class startuptemplate : Migration
+    public partial class Startuptemplate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

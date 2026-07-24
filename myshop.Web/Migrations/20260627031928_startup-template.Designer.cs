@@ -13,7 +13,7 @@ namespace myshop.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260627031928_startup-template")]
-    partial class startuptemplate
+    partial class Startuptemplate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
