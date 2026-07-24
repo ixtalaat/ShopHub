@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace myshop.Entities.Models
 {
@@ -14,12 +9,12 @@ namespace myshop.Entities.Models
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
 
         [DisplayName("Image")]
         [ValidateNever]
-        public string Img { get; set; }
+        public string Img { get; set; } = null!;
 
         [Required]
         public decimal Price { get; set; }
@@ -28,6 +23,6 @@ namespace myshop.Entities.Models
         [DisplayName("Category")]
         public int CategoryId { get; set; }
         [ValidateNever]
-        public Category Category { get; set; }
+        public Category Category { get; set; } = null!;
     }
 }

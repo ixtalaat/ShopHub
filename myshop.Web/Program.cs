@@ -1,41 +1,15 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-using myshop.DataAccess;
-using myshop.Entities.Models;
-using Stripe;
-using System;
+using myshop.Web;
+using ShopHub.Data.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection")
-    )) ;
 
-builder.Services.AddIdentity<ApplicationUser,IdentityRole>(
-    options=>options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(4)
-    ).AddDefaultTokenProviders().AddDefaultUI()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddWebServices(builder.Configuration);
 
-
-builder.Services.AddHttpContextAccessor();
-
-
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession();
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
-}
 
-
-
-
+await DatabaseInitializer.InitializeAsync(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

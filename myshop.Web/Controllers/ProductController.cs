@@ -1,23 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using myshop.DataAccess;
 using myshop.Entities.Models;
 using myshop.Entities.ViewModels;
+using ShopHub.Business.Interfaces.Services;
 
 namespace myshop.Web.Areas.Admin.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController(
+        IWebHostEnvironment webHostEnvironment,
+        IProductService productService,
+        ICategoryService categoryService) : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-
-        public ProductController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
-        {
-            _context = context;
-            _webHostEnvironment = webHostEnvironment;
-        }
+        private readonly IProductService _productService = productService;
+        private readonly ICategoryService _categoryService = categoryService;
+        private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
         public IActionResult Index()
         {
@@ -25,30 +21,21 @@ namespace myshop.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetData()
+        public async Task<IActionResult> GetData()
         {
-            var products = _context.Products
-                .Include(x => x.Category)
-                .Select(x => new
-                {
-                    id = x.Id,
-                    name = x.Name,
-                    description = x.Description,
-                    price = x.Price,
-                    categoryName = x.Category.Name
-                })
-                .ToList();
+            var products = await _productService.GetAllWithCategoryAsync();
 
             return Json(new { data = products });
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create(CancellationToken cancellationToken)
         {
+            var categories = await _categoryService.GetAllAsync(cancellationToken);
             ProductVM productVM = new ProductVM()
             {
                 Product = new Product(),
-                CategoryList = _context.Categories.Select(x => new SelectListItem
+                CategoryList = categories.Select(x => new SelectListItem
                 {
                     Text = x.Name,
                     Value = x.Id.ToString()
@@ -58,7 +45,7 @@ namespace myshop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ProductVM productVM,IFormFile file)
+        public async Task<IActionResult> Create(ProductVM productVM,IFormFile file)
         {
             if (ModelState.IsValid)
             {
@@ -76,25 +63,27 @@ namespace myshop.Web.Areas.Admin.Controllers
                     productVM.Product.Img = @"Images\Products\" + filename + ext;
                 }
 
-                _context.Products.Add(productVM.Product);
-                _context.SaveChanges();
+                await _productService.CreateAsync(productVM.Product);
+
                 TempData["Create"] = "Item has Created Successfully";
                 return RedirectToAction("Index");
             }
             return View(productVM.Product);
         }
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, CancellationToken cancellationToken)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
+            var prodcut = await _productService.GetByIdAsync(id.Value, cancellationToken);
+            var categories = await _categoryService.GetAllAsync(cancellationToken);
             ProductVM productVM = new ProductVM()
             {
-                Product = _context.Products.FirstOrDefault(x => x.Id == id),
-                CategoryList = _context.Categories.Select(x => new SelectListItem
+                Product = prodcut!,
+                CategoryList = categories.Select(x => new SelectListItem
                 {
                     Text = x.Name,
                     Value = x.Id.ToString()
@@ -105,7 +94,7 @@ namespace myshop.Web.Areas.Admin.Controllers
         }
         
         [HttpPost]
-        public IActionResult Edit(ProductVM productVM, IFormFile? file)
+        public async Task<IActionResult> Edit(ProductVM productVM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
@@ -135,8 +124,7 @@ namespace myshop.Web.Areas.Admin.Controllers
                     productVM.Product.Img = @"Images\Products\" + filename + ext;
                 }
 
-                _context.Products.Update(productVM.Product);
-                _context.SaveChanges();
+                await _productService.UpdateAsync(productVM.Product);
 
                 TempData["Update"] = "Data has Updated Successfully";
                 return RedirectToAction("Index");
@@ -146,16 +134,21 @@ namespace myshop.Web.Areas.Admin.Controllers
         }
         
         [HttpDelete]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, CancellationToken cancellationToken)
         {
-            var productIndb = _context.Products.FirstOrDefault(x => x.Id == id);
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var productIndb = await _productService.GetByIdAsync(id!.Value, cancellationToken);
 
             if (productIndb == null)
             {
                 return Json(new { success = false, message = "Error while Deleting" });
             }
 
-            _context.Products.Remove(productIndb);
+            await _productService.DeleteAsync(productIndb.Id);
 
             var oldimg = Path.Combine(_webHostEnvironment.WebRootPath, productIndb.Img.TrimStart('\\'));
 
@@ -163,8 +156,6 @@ namespace myshop.Web.Areas.Admin.Controllers
             {
                 System.IO.File.Delete(oldimg);
             }
-
-            _context.SaveChanges();
 
             return Json(new { success = true, message = "file has been Deleted" });
         }

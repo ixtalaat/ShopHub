@@ -1,38 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using myshop.DataAccess;
 using myshop.Entities.Models;
+using ShopHub.Business.Interfaces.Services;
 
 namespace myshop.Web.Areas.Admin.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController(ICategoryService categoryService) : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICategoryService _categoryService = categoryService;
 
-        public CategoryController(ApplicationDbContext context)
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            _context = context;
-        }
-
-        public IActionResult Index()
-        {
-            var categories = _context.Categories.ToList();
+            var categories = await _categoryService.GetAllAsync(cancellationToken);
             return View(categories);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public async Task<IActionResult> Create(Category category, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
+                await _categoryService.CreateAsync(category, cancellationToken);
                 TempData["Create"] = "Item has Created Successfully";
                 return RedirectToAction("Index");
             }
@@ -40,25 +33,26 @@ namespace myshop.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, CancellationToken cancellationToken)
         {
             if (id == null | id == 0)
-            {
-                NotFound();
-            }
-            var categoryIndb = _context.Categories.Find(id);
+                return BadRequest();
+            
+            var categoryIndb = await _categoryService.GetByIdAsync(id!.Value, cancellationToken);
+
+            if (categoryIndb == null)
+                return NotFound();
 
             return View(categoryIndb);
         }
 
         [HttpPost]
-        public IActionResult Edit(Category category)
+        public async Task<IActionResult> Edit(Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Categories.Update(category);
+                await _categoryService.UpdateAsync(category);
 
-                _context.SaveChanges();
                 TempData["Update"] = "Data has Updated Successfully";
                 return RedirectToAction("Index");
             }
@@ -66,27 +60,25 @@ namespace myshop.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, CancellationToken cancellationToken)
         {
             if (id == null | id == 0)
-            {
-                NotFound();
-            }
-            var categoryIndb = _context.Categories.Where(x => x.Id == id).FirstOrDefault();
+                return BadRequest();
 
+            var categoryIndb = await _categoryService.GetByIdAsync(id!.Value, cancellationToken);
+
+            if (categoryIndb is null)
+                return NotFound();
+            
             return View(categoryIndb);
         }
 
         [HttpPost]
-        public IActionResult DeleteCategory(int? id)
+        public async Task<IActionResult> DeleteCategory(int? id, CancellationToken cancellationToken)
         {
-            var categoryIndb = _context.Categories.FirstOrDefault(x => x.Id == id);
-            if (categoryIndb == null)
-            {
-                NotFound();
-            }
-            _context.Categories.Remove(categoryIndb);
-            _context.SaveChanges();
+            
+            await _categoryService.DeleteAsync(id!.Value);
+
             TempData["Delete"] = "Item has Deleted Successfully";
             return RedirectToAction("Index");
         }

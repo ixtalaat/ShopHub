@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using myshop.Entities.Models;
 
-namespace myshop.DataAccess
+namespace myshop.Data.Context
 {
     public class ApplicationDbContext: IdentityDbContext
     {
