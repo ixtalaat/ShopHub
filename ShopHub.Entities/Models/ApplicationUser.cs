@@ -7,7 +7,7 @@ namespace myshop.Entities.Models
     {
         [Required]
         public string FullName { get; set; } = null!;
-        public string Address { get; set; } = null!;
-        public string City { get; set; } = null!;
+        public string? Address { get; set; }
+        public string? City { get; set; }
     }
 }
