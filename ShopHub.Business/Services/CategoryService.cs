@@ -1,28 +1,36 @@
-﻿using myshop.Entities.Models;
+﻿using AutoMapper;
+using myshop.Entities.Models;
+using ShopHub.Business.Dtos.Category;
 using ShopHub.Business.Interfaces.Repositories;
 using ShopHub.Business.Interfaces.Services;
 
 namespace ShopHub.Business.Services;
 
-internal class CategoryService(IUnitOfWork unitOfWork) : ICategoryService
+internal class CategoryService(IUnitOfWork unitOfWork, IMapper mapper) : ICategoryService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    public async Task<IReadOnlyList<Category>> GetAllAsync(CancellationToken cancellationToken = default)
+    private readonly IMapper _mapper = mapper;
+    public async Task<IReadOnlyList<CategoryDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _unitOfWork.Categories.GetAllAsync(cancellationToken);
+        var categories = await _unitOfWork.Categories.GetAllAsync(cancellationToken);
+
+        return _mapper.Map<IReadOnlyList<CategoryDto>>(categories);
     }
 
-    public async Task<Category?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<CategoryDto?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        return await _unitOfWork.Categories.GetByIdAsync(id, cancellationToken);
+        var category =  await _unitOfWork.Categories.GetByIdAsync(id, cancellationToken);
+        return _mapper.Map<CategoryDto>(category);
     }
-    public async Task CreateAsync(Category category, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(CategoryDto categoryDto, CancellationToken cancellationToken = default)
     {
+        var category = _mapper.Map<Category>(categoryDto);
         await _unitOfWork.Categories.AddAsync(category, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
-    public async Task UpdateAsync(Category category, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(CategoryDto categoryDto, CancellationToken cancellationToken = default)
     {
+        var category = _mapper.Map<Category>(categoryDto);
         _unitOfWork.Categories.Update(category);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using myshop.Entities.Models;
+using ShopHub.Business.Dtos.Category;
 using ShopHub.Business.Interfaces.Services;
 
 namespace myshop.Web.Areas.Admin.Controllers
@@ -21,15 +22,15 @@ namespace myshop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Category category, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(CategoryDto categoryDto, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                await _categoryService.CreateAsync(category, cancellationToken);
+                await _categoryService.CreateAsync(categoryDto, cancellationToken);
                 TempData["Create"] = "Item has Created Successfully";
                 return RedirectToAction("Index");
             }
-            return View(category);
+            return View(categoryDto);
         }
 
         [HttpGet]
@@ -47,16 +48,16 @@ namespace myshop.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Category category)
+        public async Task<IActionResult> Edit(CategoryDto categoryDto)
         {
             if (ModelState.IsValid)
             {
-                await _categoryService.UpdateAsync(category);
+                await _categoryService.UpdateAsync(categoryDto);
 
                 TempData["Update"] = "Data has Updated Successfully";
                 return RedirectToAction("Index");
             }
-            return View(category);
+            return View(categoryDto);
         }
 
         [HttpGet]
