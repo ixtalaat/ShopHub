@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using myshop.Data.Context;
@@ -17,6 +18,21 @@ public static class DatabaseInitializer
 
         await context.Database.MigrateAsync();
 
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
+        await DatabaseInitializer.SeedRolesAsync(roleManager);
+
+    }
+    public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+    {
+        string[] roles = ["Admin", "Customer"];
+
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
     }
 }
