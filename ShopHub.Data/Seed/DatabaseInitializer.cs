@@ -20,19 +20,6 @@ public static class DatabaseInitializer
 
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        await DatabaseInitializer.SeedRolesAsync(roleManager);
-
-    }
-    public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
-    {
-        string[] roles = ["Admin", "Customer"];
-
-        foreach (var role in roles)
-        {
-            if (!await roleManager.RoleExistsAsync(role))
-            {
-                await roleManager.CreateAsync(new IdentityRole(role));
-            }
-        }
+        await RoleSeeder.SeedAsync(roleManager);
     }
 }
