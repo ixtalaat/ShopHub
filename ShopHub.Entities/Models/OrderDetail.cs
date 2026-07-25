@@ -1,17 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-
-namespace myshop.Entities.Models
+﻿namespace myshop.Entities.Models
 {
     public class OrderDetail
     {
         public int Id { get; set; }
 
         public int OrderHeaderId { get; set; }
-        [ValidateNever]
         public OrderHeader OrderHeader { get; set; } = null!;
 
         public int ProductId { get; set; }
-        [ValidateNever]
         public Product Product { get; set; } = null!;
 
         public decimal Price { get; set; }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShopHub.Business.Dtos.Product;
@@ -13,8 +12,7 @@ public class ProductDto
     public string Description { get; set; } = null!;
 
     [DisplayName("Image")]
-    [ValidateNever]
-    public string Img { get; set; } = null!;
+    public string? Img { get; set; }
 
     [Required]
     public decimal Price { get; set; }

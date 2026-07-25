@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-
+﻿
 namespace myshop.Entities.Models
 {
     public class OrderHeader
@@ -7,7 +6,6 @@ namespace myshop.Entities.Models
         public int Id { get; set; }
 
         public string ApplicationUserId { get; set; } = null!;
-        [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; } = null!;
 
         public DateTime OrderDate { get; set; }
