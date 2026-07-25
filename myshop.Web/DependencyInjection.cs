@@ -1,5 +1,6 @@
 ﻿using ShopHub.Business;
 using ShopHub.Data;
+using ShopHub.Entities.Constants;
 
 namespace myshop.Web;
 
@@ -14,6 +15,14 @@ public static class DependencyInjection
 
         services.AddDistributedMemoryCache();
         services.AddSession();
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(Policies.AdminAccess, policy =>
+            {
+                policy.RequireRole(Roles.Admin, Roles.SuperAdmin);
+            });
+        });
 
         // Data layer Services
         services.AddDataServices(configuration);
