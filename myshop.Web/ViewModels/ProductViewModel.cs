@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using myshop.Entities.Models;
+using ShopHub.Business.Dtos.Product;
 
 namespace myshop.Entities.ViewModels
 {
-    public class ProductVM
+    public class ProductViewModel
     {
-        public Product Product { get; set; } = null!;
+        public ProductDto ProductDto { get; set; } = null!;
         [ValidateNever]
         public IEnumerable<SelectListItem> CategoryList { get; set; } = null!;
     }

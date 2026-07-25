@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using myshop.Entities.Models;
 using myshop.Entities.ViewModels;
+using ShopHub.Business.Dtos.Product;
 using ShopHub.Business.Interfaces.Services;
 
 namespace myshop.Web.Areas.Admin.Controllers
@@ -23,29 +23,29 @@ namespace myshop.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetData()
         {
-            var products = await _productService.GetAllWithCategoryAsync();
+            var productListDto = await _productService.GetAllWithCategoryAsync();
 
-            return Json(new { data = products });
+            return Json(new { data = productListDto });
         }
 
         [HttpGet]
         public async Task<IActionResult> Create(CancellationToken cancellationToken)
         {
-            var categories = await _categoryService.GetAllAsync(cancellationToken);
-            ProductVM productVM = new ProductVM()
+            var categoriesDto = await _categoryService.GetAllAsync(cancellationToken);
+            ProductViewModel productViewModel = new ProductViewModel()
             {
-                Product = new Product(),
-                CategoryList = categories.Select(x => new SelectListItem
+                ProductDto = new ProductDto(),
+                CategoryList = categoriesDto.Select(x => new SelectListItem
                 {
                     Text = x.Name,
                     Value = x.Id.ToString()
                 })
             };
-            return View(productVM);
+            return View(productViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductVM productVM,IFormFile file)
+        public async Task<IActionResult> Create(ProductViewModel productViewModel, IFormFile file)
         {
             if (ModelState.IsValid)
             {
@@ -60,15 +60,15 @@ namespace myshop.Web.Areas.Admin.Controllers
                     {
                         file.CopyTo(filestream);
                     }
-                    productVM.Product.Img = @"Images\Products\" + filename + ext;
+                    productViewModel.ProductDto.Img = @"Images\Products\" + filename + ext;
                 }
 
-                await _productService.CreateAsync(productVM.Product);
+                await _productService.CreateAsync(productViewModel.ProductDto);
 
                 TempData["Create"] = "Item has Created Successfully";
                 return RedirectToAction("Index");
             }
-            return View(productVM.Product);
+            return View(productViewModel.ProductDto);
         }
         [HttpGet]
         public async Task<IActionResult> Edit(int? id, CancellationToken cancellationToken)
@@ -78,11 +78,11 @@ namespace myshop.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var prodcut = await _productService.GetByIdAsync(id.Value, cancellationToken);
+            var prodcutDto = await _productService.GetByIdAsync(id.Value, cancellationToken);
             var categories = await _categoryService.GetAllAsync(cancellationToken);
-            ProductVM productVM = new ProductVM()
+            ProductViewModel productViewModel = new ProductViewModel()
             {
-                Product = prodcut!,
+                ProductDto = prodcutDto!,
                 CategoryList = categories.Select(x => new SelectListItem
                 {
                     Text = x.Name,
@@ -90,11 +90,11 @@ namespace myshop.Web.Areas.Admin.Controllers
                 })
             };
 
-            return View(productVM);
+            return View(productViewModel);
         }
         
         [HttpPost]
-        public async Task<IActionResult> Edit(ProductVM productVM, IFormFile? file)
+        public async Task<IActionResult> Edit(ProductViewModel productViewModel, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
@@ -106,9 +106,9 @@ namespace myshop.Web.Areas.Admin.Controllers
                     var Upload = Path.Combine(RootPath, @"Images\Products");
                     var ext = Path.GetExtension(file.FileName);
 
-                    if (productVM.Product.Img != null)
+                    if (productViewModel.ProductDto.Img != null)
                     {
-                        var oldimg = Path.Combine(RootPath, productVM.Product.Img.TrimStart('\\'));
+                        var oldimg = Path.Combine(RootPath, productViewModel.ProductDto.Img.TrimStart('\\'));
 
                         if (System.IO.File.Exists(oldimg))
                         {
@@ -121,16 +121,16 @@ namespace myshop.Web.Areas.Admin.Controllers
                         file.CopyTo(filestream);
                     }
 
-                    productVM.Product.Img = @"Images\Products\" + filename + ext;
+                    productViewModel.ProductDto.Img = @"Images\Products\" + filename + ext;
                 }
 
-                await _productService.UpdateAsync(productVM.Product);
+                await _productService.UpdateAsync(productViewModel.ProductDto);
 
                 TempData["Update"] = "Data has Updated Successfully";
                 return RedirectToAction("Index");
             }
 
-            return View(productVM.Product);
+            return View(productViewModel.ProductDto);
         }
         
         [HttpDelete]
