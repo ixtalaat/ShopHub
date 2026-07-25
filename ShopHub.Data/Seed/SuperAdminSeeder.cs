@@ -4,7 +4,7 @@ using ShopHub.Entities.Constants;
 
 namespace ShopHub.Data.Seed;
 
-public static class AdminSeeder
+public static class SuperAdminSeeder
 {
     public static async Task SeedAsync(UserManager<ApplicationUser> userManager)
     {
@@ -27,7 +27,7 @@ public static class AdminSeeder
 
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(admin, Roles.Admin);
+                await userManager.AddToRoleAsync(admin, Roles.SuperAdmin);
             }
         }
     }

@@ -22,6 +22,6 @@ public static class DatabaseInitializer
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
         await RoleSeeder.SeedAsync(roleManager);
-        await AdminSeeder.SeedAsync(userManager);
+        await SuperAdminSeeder.SeedAsync(userManager);
     }
 }

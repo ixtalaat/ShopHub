@@ -9,6 +9,7 @@ public static class RoleSeeder
     {
         string[] roles =
         {
+            Roles.SuperAdmin,
             Roles.Admin,
             Roles.Customer
         };
