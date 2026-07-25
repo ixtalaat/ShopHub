@@ -150,7 +150,7 @@ namespace myshop.Web.Areas.Admin.Controllers
 
             await _productService.DeleteAsync(productIndb.Id);
 
-            var oldimg = Path.Combine(_webHostEnvironment.WebRootPath, productIndb.Img.TrimStart('\\'));
+            var oldimg = Path.Combine(_webHostEnvironment.WebRootPath, productIndb.Img!.TrimStart('\\'));
 
             if (System.IO.File.Exists(oldimg))
             {
