@@ -66,7 +66,6 @@ public class UserController(IUserService userService, RoleManager<IdentityRole> 
     }
 
     [HttpDelete]
-    [Authorize(Roles = Roles.SuperAdmin)]
     public async Task<IActionResult> Delete(string? id, CancellationToken cancellationToken)
     {
         if (id == null)
