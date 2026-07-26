@@ -93,7 +93,7 @@ public class UserController(IUserService userService, RoleManager<IdentityRole> 
             return Json(new { success = false, message = "Error while Deleting" });
         }
 
-        await _userService.DeleteAsync(userDto.Id, cancellationToken);
+        await _userService.DeleteAsync(currentUserId, userDto.Id, cancellationToken);
 
         return Json(new { success = true, message = "User has been Deleted" });
     }

@@ -103,13 +103,39 @@ internal class UserService(
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(string currentUserId, string targetUserId, CancellationToken cancellationToken = default)
     {
-        var user = await _userManager.FindByIdAsync(id);
-        if (user is null)
+        var currentUser = await _userManager.FindByIdAsync(currentUserId);
+        if (currentUser is null)
+            throw new Exception("Current user not found.");
+
+        var targetUser = await _userManager.FindByIdAsync(targetUserId);
+        if (targetUser is null)
             throw new Exception("User not found.");
 
-        await _userManager.DeleteAsync(user);
+        var currentIsSuperAdmin =
+            await _userManager.IsInRoleAsync(currentUser, Roles.SuperAdmin);
+
+        var targetIsAdmin =
+            await _userManager.IsInRoleAsync(targetUser, Roles.Admin);
+
+        var targetIsSuperAdmin =
+            await _userManager.IsInRoleAsync(targetUser, Roles.SuperAdmin);
+
+        // Admin cannot delete Admin or SuperAdmin
+        if (!currentIsSuperAdmin && (targetIsAdmin || targetIsSuperAdmin))
+        {
+            throw new UnauthorizedAccessException(
+                "You are not allowed to delete administrator accounts.");
+        }
+
+        var result = await _userManager.DeleteAsync(targetUser);
+
+        if (!result.Succeeded)
+        {
+            throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

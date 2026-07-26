@@ -11,5 +11,5 @@ public interface IUserService
 
     Task UpdateAsync(UserDto product, CancellationToken cancellationToken = default);
 
-    Task DeleteAsync(string id, CancellationToken cancellationToken = default);
+    Task DeleteAsync(string currentUserId, string targetUserId, CancellationToken cancellationToken = default);
 }
