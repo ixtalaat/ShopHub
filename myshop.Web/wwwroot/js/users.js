@@ -23,7 +23,7 @@ function loadData() {
                             <i class="fa-solid fa-pen"></i>
                         </a>
 
-                        <button class="btn btn-danger btn-sm" onclick="LockoutUser('/User/Delete/${id}')">
+                        <button class="btn btn-danger btn-sm" onclick="deleteUser('/User/Delete/${id}')">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     `;
@@ -35,7 +35,7 @@ function loadData() {
     });
 }
 
-function LockoutUser(url) {
+function deleteUser(url) {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",

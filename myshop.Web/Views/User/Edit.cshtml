@@ -1,0 +1,172 @@
+﻿@model UserViewModel
+
+@{
+    ViewBag.PageTitle = "User Management";
+    ViewBag.CardTitle = "Edit User";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+    /* Card */
+    .custom-card {
+        background: #ffffff;
+        border-radius: 14px;
+        border: 1px solid #d0d7de;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+
+    .custom-card-header {
+        background: #f1f5fb;
+        border-bottom: 1px solid #d0d7de;
+        padding: 18px 0;
+        text-align: center;
+        border-radius: 14px 14px 0 0;
+        margin-bottom: 20px;
+    }
+
+        .custom-card-header h4 {
+            color: #1e3a8a; /* أزرق فخم */
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .form-control, textarea, select {
+        background-color: #fefefe;
+        border: 1px solid #a0aec0;
+        border-radius: 8px;
+        padding: 10px 14px;
+        transition: 0.25s ease;
+        color: #1e3a8a;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+        .form-control::placeholder, select::placeholder {
+            color: #7f9cf5;
+        }
+
+        .form-control:focus, textarea:focus, select:focus {
+            border-color: #1e40af;
+            box-shadow: 0 0 0 0.2rem rgba(59,130,246,0.25);
+        }
+
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #1e3a8a;
+    }
+
+    .btn-success {
+        padding: 10px 22px;
+        font-weight: 600;
+        border-radius: 8px;
+        background-color: #16a34a;
+        color: white;
+        border: none;
+        box-shadow: 0 4px 12px rgba(22,163,74,0.3);
+    }
+
+        .btn-success:hover {
+            background-color: #15803d;
+            box-shadow: 0 6px 15px rgba(22,163,74,0.4);
+        }
+
+    .btn-outline-secondary {
+        border-radius: 8px;
+        padding: 9px 18px;
+        border-color: #93c5fd; /* أزرق فاتح */
+        font-weight: 600;
+        color: #1e3a8a;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #bfdbfe;
+            color: #1e40af;
+        }
+
+    #ImagePreview {
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+        border: 1px solid #d0d7de;
+        border-radius: 8px;
+        padding: 4px;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="custom-card">
+
+            <div class="custom-card-header">
+                <h4><i class="fa-solid fa-box-pen me-2"></i> @ViewBag.CardTitle</h4>
+            </div>
+
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="UserDto.Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="UserDto.FullName" class="form-label">
+                        <i class="fa-solid fa-tag me-1"></i> Full Name
+                    </label>
+                    <input asp-for="UserDto.FullName" class="form-control" placeholder="Enter Full Name" />
+                    <span asp-validation-for="UserDto.FullName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="UserDto.Email" class="form-label">
+                        <i class="fa-solid fa-align-left me-1"></i> Email
+                    </label>
+                    <input asp-for="UserDto.Email" class="form-control" placeholder="Enter Email" readonly />
+                    <span asp-validation-for="UserDto.Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="UserDto.RoleId" class="form-label">
+                        <i class="fa-solid fa-list me-1"></i> Role
+                    </label>
+                    <select asp-for="UserDto.RoleId" class="form-control p-2" asp-items="Model.RoleList">
+                        <option disabled>-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="UserDto.RoleId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input asp-for="UserDto.IsLocked"
+                               class="form-check-input"
+                               type="checkbox"
+                               role="switch"
+                               id="isLockedSwitch" />
+
+                        <label asp-for="UserDto.IsLocked"
+                               class="form-check-label"
+                               for="isLockedSwitch">
+                            Lock Account
+                        </label>
+                    </div>
+
+                    <span asp-validation-for="UserDto.IsLocked"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Back
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

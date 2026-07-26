@@ -4,6 +4,7 @@ using myshop.Data.Context;
 using myshop.Entities.Models;
 using ShopHub.Business.Dtos.User;
 using ShopHub.Business.Interfaces.Repositories;
+using ShopHub.Entities.Constants;
 
 namespace ShopHub.Data.Repositories;
 
@@ -14,9 +15,17 @@ internal class UserRepository(ApplicationDbContext context, UserManager<Applicat
 
     public async Task<IReadOnlyList<UserListDto>> GetAllWithRolesAsync(CancellationToken cancellationToken = default)
     {
+        var superAdminRoleId = await _context.Roles
+            .Where(r => r.Name == Roles.SuperAdmin)
+            .Select(r => r.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+        
+        // without super admin
         var users = await _context.Users
-        .AsNoTracking()
-        .ToListAsync(cancellationToken);
+            .AsNoTracking()
+            .Where(u => !_context.UserRoles
+                .Any(ur => ur.UserId == u.Id && ur.RoleId == superAdminRoleId))
+            .ToListAsync(cancellationToken);
 
         var result = new List<UserListDto>();
 
@@ -36,5 +45,10 @@ internal class UserRepository(ApplicationDbContext context, UserManager<Applicat
         }
 
         return result;
+    }
+
+    public async Task<ApplicationUser?> GetByIdAsync(string id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Users.FindAsync(id, cancellationToken);
     }
 }
