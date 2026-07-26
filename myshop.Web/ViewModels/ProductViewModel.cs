@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShopHub.Business.Dtos.Product;
 
-namespace myshop.Entities.ViewModels
+namespace myshop.Web.ViewModels
 {
     public class ProductViewModel
     {

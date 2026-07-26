@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using myshop.Entities.ViewModels;
+using myshop.Web.ViewModels;
 using ShopHub.Business.Dtos.Product;
 using ShopHub.Business.Interfaces.Services;
 using ShopHub.Entities.Constants;
