@@ -16,10 +16,15 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddIdentity<ApplicationUser, IdentityRole>(
-            options => options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(4)
-        ).AddDefaultTokenProviders()
-         .AddDefaultUI()
-         .AddEntityFrameworkStores<ApplicationDbContext>();
+            options => {
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromDays(4);
+                options.Password.RequiredLength = 8;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedAccount = true;
+                options.User.RequireUniqueEmail = true;
+            }).AddDefaultTokenProviders()
+              .AddDefaultUI()
+              .AddEntityFrameworkStores<ApplicationDbContext>();
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 

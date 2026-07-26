@@ -27,7 +27,7 @@ public static class DependencyInjection
         // Data layer Services
         services.AddDataServices(configuration);
         // Business layer Services
-        services.AddBusinessServices();
+        services.AddBusinessServices(configuration);
 
         return services;
     }

@@ -120,6 +120,13 @@ public class LoginModel : PageModel
                 _logger.LogWarning("User account locked out.");
                 return RedirectToPage("./Lockout");
             }
+            if (result.IsNotAllowed)
+            {
+                ModelState.AddModelError(string.Empty,
+                    "You must confirm your email before logging in.");
+
+                return Page();
+            }
             else
             {
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
