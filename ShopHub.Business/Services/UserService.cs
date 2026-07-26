@@ -103,8 +103,13 @@ internal class UserService(
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
-    public Task DeleteAsync(string id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var user = await _userManager.FindByIdAsync(id);
+        if (user is null)
+            throw new Exception("User not found.");
+
+        await _userManager.DeleteAsync(user);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 }
