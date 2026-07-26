@@ -36,15 +36,20 @@ public class UserController(IUserService userService, RoleManager<IdentityRole> 
         }
 
         var userDto = await _userService.GetByIdAsync(id, cancellationToken);
-        var roles = await _roleManager.Roles.ToListAsync();
+        
+        var roles = await _roleManager.Roles
+            .Where(r => r.Name != Roles.SuperAdmin)
+            .Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.Id.ToString()
+            })
+            .ToListAsync();
+        
         UserViewModel userViewModel = new UserViewModel()
         {
             UserDto = userDto!,
-            RoleList = roles.Select(x => new SelectListItem
-            {
-                Text = x.Name,
-                Value = x.Id.ToString()
-            })
+            RoleList = roles
         };
 
         return View(userViewModel);
