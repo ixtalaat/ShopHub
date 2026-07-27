@@ -180,31 +180,31 @@ After running the application, a default administrator account is seeded automat
 
 ## Register
 
-![Register](docs/screenshots/register.png)
+![Register](docs/Screenshots/register.png)
 
 ---
 
 ## Login
 
-![Login](docs/screenshots/login.png)
+![Login](docs/Screenshots/login.png)
 
 ---
 
 ## Categories Management
 
-![Categories Management](docs/screenshots/categories.png)
+![Categories Management](docs/Screenshots/categories.png)
 
 ---
 
 ## Products Management
 
-![Products Management](docs/screenshots/products.png)
+![Products Management](docs/Screenshots/products.png)
 
 ---
 
 ## User Management
 
-![User Management](docs/screenshots/users.png)
+![User Management](docs/Screenshots/users.png)
 
 ---
 
