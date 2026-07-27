@@ -1,52 +1,127 @@
-# ShopHub Startup Template
+# ShopHub
 
-A clean ASP.NET Core MVC startup template designed for students to build E-Commerce projects using the Repository Pattern and Entity Framework Core.
+A modern ASP.NET Core MVC E-Commerce application built using a **3-Tier Architecture**, **Repository Pattern**, **Unit of Work**, and **ASP.NET Core Identity**. The project is designed to demonstrate real-world backend architecture and best practices.
 
-## Features
+---
 
-- ASP.NET Core MVC
-- Entity Framework Core
+## ✨ Features
+
+### Architecture
+
+- 3-Tier Architecture
 - Repository Pattern
-- SQL Server Integration
-- Identity Authentication
-- Bootstrap UI
+- Unit of Work Pattern
+- Dependency Injection
+- AutoMapper
+- DTO Pattern
+- Entity Framework Core
+- SQL Server
+
+### Authentication & Authorization
+
+- ASP.NET Core Identity
+- Email Confirmation
+- Role-Based Authorization
+- Admin / Customer Roles
+- User Management
+- Account Lock / Unlock
+- Secure Password Policies
+
+### UI
+
+- Bootstrap 5
 - AdminLTE Dashboard
-- DataTables Integration
-- Toastr Notifications
+- DataTables
 - SweetAlert2
-- TinyMCE Support (Optional)
-- File Upload Support
+- Toastr Notifications
+- Font Awesome
+
+### General
+
+- CRUD Operations
+- File Upload
+- Image Management
+- Entity Relationships
+- Responsive Design
 - Session Configuration
 
-## Included Modules
+---
 
-### Category
+# 📦 Modules
+
+## Category Management
+
 - Create Category
-- View Categories
 - Edit Category
 - Delete Category
+- View Categories
 
-### Product
+---
+
+## Product Management
+
 - Create Product
-- Upload Product Image
-- View Products
+- Upload Product Images
 - Edit Product
 - Delete Product
+- View Products
 
-## Project Structure
+---
 
+## User Management
+
+- View Users
+- Edit User
+- Change User Role
+- Lock / Unlock User
+- Delete User
+- Role-Based Authorization
+
+---
+
+## Authentication
+
+- Register
+- Login
+- Logout
+
+---
+
+# 🏗️ Project Structure
+
+```text
+ShopHub.sln
+
+src
+├── ShopHub.Web
+│   ├── Controllers
+│   ├── Views
+│   ├── Areas
+│   │   └── Identity
+│   ├── wwwroot
+│   └── Program.cs
+│
+├── ShopHub.Business
+│   ├── DTOs
+│   ├── Interfaces
+│   ├── Services
+│   ├── Mapping
+│   └── DependencyInjection.cs
+│
+├── ShopHub.Data
+│   ├── Context
+│   ├── Repositories
+│   ├── Seed
+│   └── DependencyInjection.cs
+│
+└── ShopHub.Entities
+    ├── Models
+    └── Constants
 ```
-Controllers/
-DataAccess/
-Entities/
-    Models/
-    ViewModels/
-Repositories/
-Views/
-wwwroot/
-```
 
-## Technologies
+---
+
+# 🛠️ Technologies
 
 - ASP.NET Core MVC
 - Entity Framework Core
@@ -57,48 +132,109 @@ wwwroot/
 - jQuery
 - DataTables
 
-## Database
+# 🚀 Getting Started
 
-Update the connection string inside:
+## Clone the repository
 
+```bash
+git clone https://github.com/your-username/ShopHub.git
 ```
+
+## Configure the database
+
+Update the connection string in:
+
+```text
 appsettings.json
 ```
 
-Then run:
-
-```bash
-Update-Database
-```
-
-or
+## Apply migrations
 
 ```bash
 dotnet ef database update
 ```
 
-## Default Features
+## Run the application
 
-- Repository Pattern
-- Dependency Injection
-- CRUD Operations
-- File Upload
-- Entity Relationships
-- ViewModels
-- TempData Notifications
+```bash
+dotnet run
+```
 
-## Notes
+---
 
-This template is intended as a starting point for educational E-Commerce projects. Students are expected to extend it with additional features such as:
+# 👤 Default Admin Account
+
+After running the application, a default administrator account is seeded automatically.
+
+> **Update these credentials to match your seeded admin account.**
+
+| Email | Password |
+|--------|----------|
+| admin@shophub.com | Password123$ |
+
+---
+
+# 📸 Screenshots
+
+> Replace the placeholder images below with actual screenshots after uploading them to the repository.
+
+## Register
+
+![Register](docs/screenshots/register.png)
+
+---
+
+## Login
+
+![Login](docs/screenshots/login.png)
+
+---
+
+## Categories Management
+
+![Categories Management](docs/screenshots/categories.png)
+
+---
+
+## Products Management
+
+![Products Management](docs/screenshots/products.png)
+
+---
+
+## User Management
+
+![User Management](docs/screenshots/users.png)
+
+---
+
+# 📈 Future Improvements
 
 - Shopping Cart
+- Checkout
 - Orders
-- Payments
-- Reviews
-- Wishlist
-- Authentication Enhancements
+- Payment Integration (Stripe)
+- Product Reviews
 - Dashboard Analytics
 
-## License
+---
 
-Educational Use Only.
+# 📚 Learning Objectives
+
+This project demonstrates:
+
+- Layered Architecture
+- Repository Pattern
+- Unit of Work
+- Dependency Injection
+- Authentication & Authorization
+- Role-Based Security
+- Entity Framework Core
+- AutoMapper
+- Clean Code Practices
+
+---
+
+# 📄 License
+
+This project is intended for **educational and portfolio purposes**.
