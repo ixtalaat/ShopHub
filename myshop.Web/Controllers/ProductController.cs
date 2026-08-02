@@ -10,13 +10,11 @@ namespace myshop.Web.Areas.Admin.Controllers;
 
 [Authorize(Policy = Policies.AdminAccess)]
 public class ProductController(
-    IWebHostEnvironment webHostEnvironment,
     IProductService productService,
     ICategoryService categoryService) : Controller
 {
     private readonly IProductService _productService = productService;
     private readonly ICategoryService _categoryService = categoryService;
-    private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
     public IActionResult Index()
     {
@@ -48,24 +46,10 @@ public class ProductController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(ProductViewModel productViewModel, IFormFile file)
+    public async Task<IActionResult> Create(ProductViewModel productViewModel)
     {
         if (ModelState.IsValid)
         {
-            string RootPath = _webHostEnvironment.WebRootPath;
-            if (file != null)
-            {
-                string filename = Guid.NewGuid().ToString();
-                var Upload = Path.Combine(RootPath, @"Images\Products");
-                var ext = Path.GetExtension(file.FileName);
-
-                using (var filestream = new FileStream(Path.Combine(Upload,filename+ext),FileMode.Create))
-                {
-                    file.CopyTo(filestream);
-                }
-                productViewModel.ProductDto.Img = @"Images\Products\" + filename + ext;
-            }
-
             await _productService.CreateAsync(productViewModel.ProductDto);
 
             TempData["Create"] = "Item has Created Successfully";
@@ -97,36 +81,10 @@ public class ProductController(
     }
     
     [HttpPost]
-    public async Task<IActionResult> Edit(ProductViewModel productViewModel, IFormFile? file)
+    public async Task<IActionResult> Edit(ProductViewModel productViewModel)
     {
         if (ModelState.IsValid)
         {
-            string RootPath = _webHostEnvironment.WebRootPath;
-
-            if (file != null)
-            {
-                string filename = Guid.NewGuid().ToString();
-                var Upload = Path.Combine(RootPath, @"Images\Products");
-                var ext = Path.GetExtension(file.FileName);
-
-                if (productViewModel.ProductDto.Img != null)
-                {
-                    var oldimg = Path.Combine(RootPath, productViewModel.ProductDto.Img.TrimStart('\\'));
-
-                    if (System.IO.File.Exists(oldimg))
-                    {
-                        System.IO.File.Delete(oldimg);
-                    }
-                }
-
-                using (var filestream = new FileStream(Path.Combine(Upload, filename + ext), FileMode.Create))
-                {
-                    file.CopyTo(filestream);
-                }
-
-                productViewModel.ProductDto.Img = @"Images\Products\" + filename + ext;
-            }
-
             await _productService.UpdateAsync(productViewModel.ProductDto);
 
             TempData["Update"] = "Data has Updated Successfully";
@@ -152,13 +110,6 @@ public class ProductController(
         }
 
         await _productService.DeleteAsync(productIndb.Id);
-
-        var oldimg = Path.Combine(_webHostEnvironment.WebRootPath, productIndb.Img!.TrimStart('\\'));
-
-        if (System.IO.File.Exists(oldimg))
-        {
-            System.IO.File.Delete(oldimg);
-        }
 
         return Json(new { success = true, message = "file has been Deleted" });
     }

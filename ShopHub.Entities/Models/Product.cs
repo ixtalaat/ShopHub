@@ -13,7 +13,7 @@ namespace myshop.Entities.Models
         public string Description { get; set; } = null!;
 
         [DisplayName("Image")]
-        public string Img { get; set; } = null!;
+        public string ImageUrl { get; set; } = null!;
 
         [Required]
         [Precision(18, 2)]

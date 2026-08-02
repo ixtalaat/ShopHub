@@ -16,9 +16,11 @@ public static class DependencyInjection
         services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
         services.AddTransient<IEmailSender, EmailService>();
-        services.AddScoped<IProductService, ProductService>();
+
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IFileService, LocalFileService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IProductService, ProductService>();
         return services;
     }
 }

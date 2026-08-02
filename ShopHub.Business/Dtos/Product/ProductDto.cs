@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShopHub.Business.Dtos.Product;
@@ -12,7 +13,8 @@ public class ProductDto
     public string Description { get; set; } = null!;
 
     [DisplayName("Image")]
-    public string? Img { get; set; }
+    public string? ImageUrl { get; set; }
+    public IFormFile? Image { get; set; }
 
     [Required]
     public decimal Price { get; set; }

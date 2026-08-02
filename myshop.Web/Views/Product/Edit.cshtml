@@ -107,7 +107,7 @@
 
             <form asp-action="Edit" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="ProductDto.Id" />
-                <input type="hidden" asp-for="ProductDto.Img" />
+                <input type="hidden" asp-for="ProductDto.ImageUrl" />
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="mb-3">
@@ -135,10 +135,10 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="ProductDto.Img" class="form-label">
+                    <label asp-for="ProductDto.ImageUrl" class="form-label">
                         <i class="fa-solid fa-image me-1"></i> Product Image
                     </label>
-                    <input type="file" name="file" id="imgfile" class="form-control" onchange="fillimg(event);" />
+                    <input type="file" name="ProductDto.Image" id="imgfile" class="form-control" onchange="fillimg(event);" />
                 </div>
 
                 <div class="mb-3">
@@ -162,7 +162,7 @@
             </form>
 
             <div class="mt-4 text-center">
-                <img id="ImagePreview" src="~/@Model.ProductDto.Img" />
+                <img id="ImagePreview" src="~/@Model.ProductDto.ImageUrl" />
             </div>
 
         </div>

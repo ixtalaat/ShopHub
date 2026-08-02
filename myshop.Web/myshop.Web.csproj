@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="wwwroot\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\css\adminlte.css.map" />
     <None Include="wwwroot\css\adminlte.min.css.map" />
     <None Include="wwwroot\css\alt\adminlte.components.css.map" />
@@ -107,8 +114,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Shared\Components\" />
-    <Folder Include="wwwroot\Images\Products\" />
-    <Folder Include="wwwroot\NewFolder\" />
+    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
   <ItemGroup>

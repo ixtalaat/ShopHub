@@ -6,10 +6,14 @@ using ShopHub.Business.Interfaces.Services;
 
 namespace ShopHub.Business.Services;
 
-internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
+internal class ProductService(
+    IUnitOfWork unitOfWork,
+    IMapper mapper,
+    IFileService fileService) : IProductService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
+    private readonly IFileService _fileService = fileService;
 
     public async Task<IReadOnlyList<ProductDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
@@ -30,12 +34,31 @@ internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProduct
     public async Task CreateAsync(ProductDto productDto, CancellationToken cancellationToken = default)
     {
         var product = _mapper.Map<Product>(productDto);
+
+        if (productDto.Image is not null)
+        {
+            product.ImageUrl = (await _fileService.UploadAsync(
+                productDto.Image,
+                "images/products",
+                cancellationToken))!;
+        }
+
         await _unitOfWork.Products.AddAsync(product, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
     public async Task UpdateAsync(ProductDto productDto, CancellationToken cancellationToken = default)
     {
         var product = _mapper.Map<Product>(productDto);
+        if (productDto.Image is not null)
+        {
+            await _fileService.DeleteAsync(product.ImageUrl);
+
+            product.ImageUrl = (await _fileService.UploadAsync(
+                productDto.Image,
+                "images/products",
+                cancellationToken))!;
+        }
+
         _unitOfWork.Products.Update(product);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
@@ -46,6 +69,8 @@ internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProduct
         {
             throw new ArgumentNullException(nameof(product));
         }
+
+        await _fileService.DeleteAsync(product.ImageUrl);
 
         _unitOfWork.Products.Delete(product);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
