@@ -362,5 +362,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Uploaded Images
-/MyShop.Web/wwwroot/images/
+# Ignore uploaded files
+wwwroot/images/**
+
+# Keep folder structure
+!wwwroot/images/**/.gitkeep
