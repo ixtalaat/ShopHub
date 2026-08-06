@@ -41,7 +41,13 @@ internal class ProductService(
                 productDto.Image,
                 "images/products",
                 cancellationToken))!;
+        } 
+        else
+        {
+            product.ImageUrl = "images/products/placeholder.jpg";
         }
+
+        
 
         await _unitOfWork.Products.AddAsync(product, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
