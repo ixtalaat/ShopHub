@@ -33,6 +33,7 @@ public class ProductController(
     public async Task<IActionResult> Create(CancellationToken cancellationToken)
     {
         var categoriesDto = await _categoryService.GetAllAsync(cancellationToken);
+
         ProductViewModel productViewModel = new ProductViewModel()
         {
             ProductDto = new ProductDto(),
@@ -48,6 +49,11 @@ public class ProductController(
     [HttpPost]
     public async Task<IActionResult> Create(ProductViewModel productViewModel)
     {
+        if (productViewModel.ProductDto.Image == null)
+        {
+            ModelState.AddModelError(nameof(productViewModel.ProductDto.Image), "Please select a product image.");
+        }
+
         if (ModelState.IsValid)
         {
             await _productService.CreateAsync(productViewModel.ProductDto);
@@ -55,7 +61,7 @@ public class ProductController(
             TempData["Create"] = "Item has Created Successfully";
             return RedirectToAction("Index");
         }
-        return View(productViewModel.ProductDto);
+        return View(productViewModel);
     }
     [HttpGet]
     public async Task<IActionResult> Edit(int? id, CancellationToken cancellationToken)

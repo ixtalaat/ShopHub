@@ -365,5 +365,8 @@ FodyWeavers.xsd
 # Ignore uploaded files
 wwwroot/images/**
 
+# Ignore product images
+myshop.Web/wwwroot/Images/
+
 # Keep folder structure
 !wwwroot/images/**/.gitkeep
