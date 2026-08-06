@@ -47,13 +47,8 @@ public class ProductController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(ProductViewModel productViewModel)
+    public async Task<IActionResult> Create(ProductViewModel productViewModel, CancellationToken cancellationToken)
     {
-        if (productViewModel.ProductDto.Image == null)
-        {
-            ModelState.AddModelError(nameof(productViewModel.ProductDto.Image), "Please select a product image.");
-        }
-
         if (ModelState.IsValid)
         {
             await _productService.CreateAsync(productViewModel.ProductDto);
@@ -61,6 +56,12 @@ public class ProductController(
             TempData["Create"] = "Item has Created Successfully";
             return RedirectToAction("Index");
         }
+        var categoriesDto = await _categoryService.GetAllAsync(cancellationToken);
+        productViewModel.CategoryList = categoriesDto.Select(x => new SelectListItem
+        {
+            Text = x.Name,
+            Value = x.Id.ToString()
+        });
         return View(productViewModel);
     }
     [HttpGet]
@@ -87,17 +88,22 @@ public class ProductController(
     }
     
     [HttpPost]
-    public async Task<IActionResult> Edit(ProductViewModel productViewModel)
+    public async Task<IActionResult> Edit(ProductViewModel productViewModel, CancellationToken cancellationToken)
     {
         if (ModelState.IsValid)
         {
-            await _productService.UpdateAsync(productViewModel.ProductDto);
+            await _productService.UpdateAsync(productViewModel.ProductDto, cancellationToken);
 
             TempData["Update"] = "Data has Updated Successfully";
             return RedirectToAction("Index");
         }
-
-        return View(productViewModel.ProductDto);
+        var categories = await _categoryService.GetAllAsync(cancellationToken);
+        productViewModel.CategoryList = categories.Select(x => new SelectListItem
+        {
+            Text = x.Name,
+            Value = x.Id.ToString()
+        });
+        return View(productViewModel);
     }
     
     [HttpDelete]

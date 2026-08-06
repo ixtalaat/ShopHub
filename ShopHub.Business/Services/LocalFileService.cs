@@ -27,6 +27,14 @@ public class LocalFileService(IWebHostEnvironment environment) : IFileService
 
         var filePath = Path.Combine(uploadFolder, fileName);
 
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+
+        if (!allowedExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+            throw new InvalidOperationException("Invalid file type.");
+
+        if (file.Length > 2 * 1024 * 1024)
+            throw new InvalidOperationException("File size exceeds the limit.");
+
         await using var stream = new FileStream(filePath, FileMode.Create);
 
         await file.CopyToAsync(stream, cancellationToken);

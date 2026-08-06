@@ -139,6 +139,7 @@
                         <i class="fa-solid fa-image me-1"></i> Product Image
                     </label>
                     <input type="file" name="ProductDto.Image" id="imgfile" class="form-control" onchange="fillimg(event);" />
+                    <span asp-validation-for="ProductDto.Image" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
