@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using myshop.Entities.Models;
+using ShopHub.Entities.Models;
 
-namespace myshop.Data.Context
+namespace ShopHub.Data.Context;
+
+public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
 {
-    public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
-    {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {            
-        }
-
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
-
-        
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {            
     }
+
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Product> Products { get; set; }
+
+    
 }

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace myshop.Entities.Models
+namespace ShopHub.Entities.Models;
+
+public class ApplicationUser : IdentityUser
 {
-    public class ApplicationUser : IdentityUser
-    {
-        [Required]
-        public string FullName { get; set; } = null!;
-        public string? Address { get; set; }
-        public string? City { get; set; }
-    }
+    [Required]
+    public string FullName { get; set; } = null!;
+    public string? Address { get; set; }
+    public string? City { get; set; }
 }

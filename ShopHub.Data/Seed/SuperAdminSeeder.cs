@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using myshop.Entities.Models;
+using ShopHub.Entities.Models;
 using ShopHub.Entities.Constants;
 
 namespace ShopHub.Data.Seed;

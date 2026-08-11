@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using myshop.Data.Context;
-using myshop.Entities.Models;
+using ShopHub.Data.Context;
+using ShopHub.Entities.Models;
 using ShopHub.Business.Dtos.User;
 using ShopHub.Business.Interfaces.Repositories;
 using ShopHub.Entities.Constants;

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using myshop.Data.Context;
+using ShopHub.Data.Context;
 
 #nullable disable
 
-namespace myshop.Data.Migrations
+namespace ShopHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260627031928_startup-template")]
@@ -223,7 +223,7 @@ namespace myshop.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("myshop.Entities.Models.Category", b =>
+            modelBuilder.Entity("ShopHub.Entities.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -247,7 +247,7 @@ namespace myshop.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("myshop.Entities.Models.Product", b =>
+            modelBuilder.Entity("ShopHub.Entities.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -331,9 +331,9 @@ namespace myshop.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("myshop.Entities.Models.Product", b =>
+            modelBuilder.Entity("ShopHub.Entities.Models.Product", b =>
                 {
-                    b.HasOne("myshop.Entities.Models.Category", "Category")
+                    b.HasOne("ShopHub.Entities.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -1,4 +1,4 @@
-﻿using myshop.Entities.Models;
+﻿using ShopHub.Entities.Models;
 using ShopHub.Business.Dtos.Product;
 
 namespace ShopHub.Business.Interfaces.Services;

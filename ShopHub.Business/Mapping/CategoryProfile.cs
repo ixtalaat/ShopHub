@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using myshop.Entities.Models;
+using ShopHub.Entities.Models;
 using ShopHub.Business.Dtos.Category;
 
 namespace ShopHub.Business.Mapping;

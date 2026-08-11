@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace myshop.Data.Migrations
+namespace ShopHub.Data.Migrations
 {
     /// <inheritdoc />
     public partial class UpdateIdentityTables : Migration

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace myshop.Data.Migrations
+namespace ShopHub.Data.Migrations
 {
     /// <inheritdoc />
     public partial class Startuptemplate : Migration

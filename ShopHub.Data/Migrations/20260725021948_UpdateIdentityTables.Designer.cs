@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using myshop.Data.Context;
+using ShopHub.Data.Context;
 
 #nullable disable
 
-namespace myshop.Data.Migrations
+namespace ShopHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260725021948_UpdateIdentityTables")]
@@ -158,7 +158,7 @@ namespace myshop.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("myshop.Entities.Models.ApplicationUser", b =>
+            modelBuilder.Entity("ShopHub.Entities.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -235,7 +235,7 @@ namespace myshop.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("myshop.Entities.Models.Category", b =>
+            modelBuilder.Entity("ShopHub.Entities.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -259,7 +259,7 @@ namespace myshop.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("myshop.Entities.Models.Product", b =>
+            modelBuilder.Entity("ShopHub.Entities.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -304,7 +304,7 @@ namespace myshop.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("myshop.Entities.Models.ApplicationUser", null)
+                    b.HasOne("ShopHub.Entities.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -313,7 +313,7 @@ namespace myshop.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("myshop.Entities.Models.ApplicationUser", null)
+                    b.HasOne("ShopHub.Entities.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -328,7 +328,7 @@ namespace myshop.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("myshop.Entities.Models.ApplicationUser", null)
+                    b.HasOne("ShopHub.Entities.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -337,16 +337,16 @@ namespace myshop.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("myshop.Entities.Models.ApplicationUser", null)
+                    b.HasOne("ShopHub.Entities.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("myshop.Entities.Models.Product", b =>
+            modelBuilder.Entity("ShopHub.Entities.Models.Product", b =>
                 {
-                    b.HasOne("myshop.Entities.Models.Category", "Category")
+                    b.HasOne("ShopHub.Entities.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)

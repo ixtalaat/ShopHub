@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using myshop.Data.Context;
+using ShopHub.Data.Context;
 using ShopHub.Business.Interfaces.Repositories;
 
 namespace ShopHub.Data.Repositories;

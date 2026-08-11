@@ -1,4 +1,4 @@
-﻿using myshop.Entities.Models;
+﻿using ShopHub.Entities.Models;
 using ShopHub.Business.Dtos.User;
 
 namespace ShopHub.Business.Interfaces.Repositories;

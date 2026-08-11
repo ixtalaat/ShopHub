@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using myshop.Entities.Models;
+using ShopHub.Entities.Models;
 using ShopHub.Business.Dtos.User;
 using ShopHub.Business.Interfaces.Repositories;
 using ShopHub.Business.Interfaces.Services;
