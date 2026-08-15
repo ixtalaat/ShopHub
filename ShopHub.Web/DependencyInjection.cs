@@ -1,6 +1,8 @@
 ﻿using ShopHub.Business;
+using ShopHub.Business.Interfaces.Services;
 using ShopHub.Data;
 using ShopHub.Entities.Constants;
+using ShopHub.Web.Services;
 
 namespace ShopHub.Web;
 
@@ -11,10 +13,11 @@ public static class DependencyInjection
         services.AddControllersWithViews();
         services.AddRazorPages().AddRazorRuntimeCompilation();
 
-        services.AddHttpContextAccessor();
 
+        services.AddHttpContextAccessor();
         services.AddDistributedMemoryCache();
         services.AddSession();
+        services.AddScoped<ICartSession, SessionCartSession>();
 
         services.AddAuthorization(options =>
         {
