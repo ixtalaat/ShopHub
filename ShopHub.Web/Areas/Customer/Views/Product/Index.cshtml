@@ -1,0 +1,224 @@
+@model ShopHub.Web.ViewModels.ProductBrowseViewModel
+@using ShopHub.Business.Enums
+
+@{
+    ViewData["Title"] = "Browse Products";
+    Layout = "~/Views/Shared/_Customer.cshtml";
+
+    var query = Model.Query;
+    var products = Model.Products;
+}
+
+<style>
+    .browse-header {
+        background: linear-gradient(120deg, #0d6efd 0%, #004bba 50%, #002f7a 100%);
+        padding: 3rem 0;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        color: white;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .filter-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .product-card-body {
+        padding: 1.25rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0d6efd;
+        margin-top: auto;
+    }
+
+    .category-badge {
+        display: inline-block;
+        background: #e7f1ff;
+        color: #0d6efd;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 3rem;
+        color: #6c757d;
+    }
+</style>
+
+<div class="browse-header text-center">
+    <div class="container">
+        <h1 class="display-5 fw-bold">Browse Products</h1>
+        <p class="lead text-white-50 mb-0">Discover amazing deals across @Model.Categories.Count categories</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="filter-card">
+        <form method="get" asp-area="Customer" asp-controller="Product" asp-action="Index" class="row g-3 align-items-end">
+            <input type="hidden" name="pageNumber" value="1" />
+
+            <div class="col-md-5">
+                <label for="search" class="form-label fw-semibold">Search</label>
+                <input type="text"
+                       id="search"
+                       name="search"
+                       class="form-control"
+                       placeholder="Search by name or description..."
+                       value="@query.SearchTerm" />
+            </div>
+
+            <div class="col-md-3">
+                <label for="sortBy" class="form-label fw-semibold">Sort By</label>
+                <select id="sortBy" name="sortBy" class="form-select">
+                    @if (query.SortBy == ProductSortBy.Name)
+                    {
+                        <option value="@ProductSortBy.Name" selected>Name</option>
+                    }
+                    else
+                    {
+                        <option value="@ProductSortBy.Name">Name</option>
+                    }
+                    @if (query.SortBy == ProductSortBy.Price)
+                    {
+                        <option value="@ProductSortBy.Price" selected>Price</option>
+                    }
+                    else
+                    {
+                        <option value="@ProductSortBy.Price">Price</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label for="sortDirection" class="form-label fw-semibold">Order</label>
+                <select id="sortDirection" name="sortDirection" class="form-select">
+                    @if (query.SortDirection == SortDirection.Asc)
+                    {
+                        <option value="@SortDirection.Asc" selected>Ascending</option>
+                    }
+                    else
+                    {
+                        <option value="@SortDirection.Asc">Ascending</option>
+                    }
+                    @if (query.SortDirection == SortDirection.Desc)
+                    {
+                        <option value="@SortDirection.Desc" selected>Descending</option>
+                    }
+                    else
+                    {
+                        <option value="@SortDirection.Desc">Descending</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label for="pageSize" class="form-label fw-semibold">Page Size</label>
+                <select id="pageSize" name="pageSize" class="form-select">
+                    @foreach (var size in new[] { 6, 10, 20, 50 })
+                    {
+                        if (query.PageSize == size)
+                        {
+                            <option value="@size" selected>@size</option>
+                        }
+                        else
+                        {
+                            <option value="@size">@size</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="bi bi-search"></i> Apply
+                </button>
+                <a asp-area="Customer"
+                   asp-controller="Product"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary ms-2">
+                    Clear
+                </a>
+            </div>
+        </form>
+    </div>
+
+    @if (products.Items.Count == 0)
+    {
+        <div class="no-results">
+            <i class="bi bi-inbox display-4 d-block mb-3"></i>
+            <h4>No products found</h4>
+            <p>Try adjusting your search or filters.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4 mb-4">
+            @foreach (var product in products.Items)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="product-card">
+                        <img src="~/@product.ImageUrl" alt="@product.Name" />
+                        <div class="product-card-body">
+                            <span class="category-badge">@product.CategoryName</span>
+                            <h5 class="fw-bold">@product.Name</h5>
+                            <p class="text-muted small flex-grow-1">
+                                @(product.Description.Length > 100
+                                    ? product.Description[..100] + "..."
+                                    : product.Description)
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="product-price">@product.Price.ToString("C")</span>
+                                <form asp-area="Customer" asp-controller="Cart" asp-action="Add" method="post">
+                                    <input type="hidden" name="productId" value="@product.Id" />
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-cart-plus"></i> Add to Cart
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <partial name="_Pagination" model="Model" />
+    }
+</div>

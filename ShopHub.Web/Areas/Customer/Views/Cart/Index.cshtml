@@ -1,11 +1,10 @@
-﻿@{
+@{
     ViewBag.PageTitle = "Cart";
     ViewBag.CardTitle = "View Cart";
     Layout = "~/Views/Shared/_Customer.cshtml";
 }
 @model CartViewModel
 
-<form method="post">
 	<br />
 	<div class="card shadow border-0">
 		<div class="card-header bg-primary bg-gradient text-white ml-0 py-4">
@@ -32,7 +31,7 @@
 							<div class="d-none d-lg-block col-lg-1 text-center py-2">
 								@if (item.ImageUrl != null)
 								{
-									<img src="@item.ImageUrl" class="card-img-top rounded w-100">
+									<img src="~/@item.ImageUrl" class="card-img-top rounded w-100">
 								}
 								else
 								{
@@ -51,19 +50,26 @@
 								</div>
 								<div class="col-6 col-sm-4 col-lg-6 pt-2">
 									<div class="w-75 btn-group" role="group">
-										<a asp-action="Plus" asp-route-cartId="@item.ProductId" class="btn btn-outline-primary bg-gradient py-2">
-											<i class="bi bi-plus-square"></i>
-										</a> &nbsp;
-										<a asp-action="Minus" asp-route-cartId="@item.ProductId" class="btn btn-outline-primary bg-gradient py-2">
-											<i class="bi bi-dash-square"></i>
-										</a>
+										<form asp-action="Plus" asp-route-productId="@item.ProductId" method="post" class="d-inline">
+											<button type="submit" class="btn btn-outline-primary bg-gradient py-2">
+												<i class="bi bi-plus-square"></i>
+											</button>
+										</form>
+										&nbsp;
+										<form asp-action="Minus" asp-route-productId="@item.ProductId" method="post" class="d-inline">
+											<button type="submit" class="btn btn-outline-primary bg-gradient py-2">
+												<i class="bi bi-dash-square"></i>
+											</button>
+										</form>
 									</div>
 
 								</div>
 								<div class="col-3 col-sm-4 col-lg-2 offset-lg-1 text-right pt-2">
-									<a asp-action="Remove" asp-route-cartId="@item.ProductId" class="btn btn-danger bg-gradient py-2 ">
-										<i class="bi bi-trash-fill"></i>
-									</a>
+									<form asp-action="Remove" asp-route-productId="@item.ProductId" method="post" class="d-inline">
+										<button type="submit" class="btn btn-danger bg-gradient py-2">
+											<i class="bi bi-trash-fill"></i>
+										</button>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -83,10 +89,11 @@
 				</div>
 				<div class="row">
 					<div class="col-md-2 offset-md-5">
-						<a asp-controller="Cart" asp-action="Clear" class="btn btn-danger border-0 bg-gradient w-100 py-2">ClearCart</a>
+						<form asp-controller="Cart" asp-action="Clear" method="post" class="w-100">
+							<button type="submit" class="btn btn-danger border-0 bg-gradient w-100 py-2">ClearCart</button>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</form>

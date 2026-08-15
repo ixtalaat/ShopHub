@@ -1,0 +1,66 @@
+@model ShopHub.Web.ViewModels.ProductBrowseViewModel
+
+@{
+    var products = Model.Products;
+    var query = Model.Query;
+
+    var startPage = Math.Max(1, products.PageNumber - 2);
+    var endPage = Math.Min(products.TotalPages, products.PageNumber + 2);
+}
+
+@if (products.TotalPages > 1)
+{
+    <nav aria-label="Product pagination" class="d-flex justify-content-center mb-5">
+        <ul class="pagination pagination-lg">
+            <li class="page-item @(products.HasPreviousPage ? "" : "disabled")">
+                <a class="page-link"
+                   asp-area="Customer"
+                   asp-controller="Product"
+                   asp-action="Index"
+                   asp-route-pageNumber="@(products.PageNumber - 1)"
+                   asp-route-pageSize="@query.PageSize"
+                   asp-route-search="@query.SearchTerm"
+                   asp-route-sortBy="@query.SortBy"
+                   asp-route-sortDirection="@query.SortDirection">
+                    Previous
+                </a>
+            </li>
+
+            @for (var pageNum = startPage; pageNum <= endPage; pageNum++)
+            {
+                <li class="page-item @(pageNum == products.PageNumber ? "active" : "")">
+                    <a class="page-link"
+                       asp-area="Customer"
+                       asp-controller="Product"
+                       asp-action="Index"
+                       asp-route-pageNumber="@pageNum"
+                       asp-route-pageSize="@query.PageSize"
+                       asp-route-search="@query.SearchTerm"
+                       asp-route-sortBy="@query.SortBy"
+                       asp-route-sortDirection="@query.SortDirection">
+                        @pageNum
+                    </a>
+                </li>
+            }
+
+            <li class="page-item @(products.HasNextPage ? "" : "disabled")">
+                <a class="page-link"
+                   asp-area="Customer"
+                   asp-controller="Product"
+                   asp-action="Index"
+                   asp-route-pageNumber="@(products.PageNumber + 1)"
+                   asp-route-pageSize="@query.PageSize"
+                   asp-route-search="@query.SearchTerm"
+                   asp-route-sortBy="@query.SortBy"
+                   asp-route-sortDirection="@query.SortDirection">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <p class="text-center text-muted mb-5">
+        Showing @(((products.PageNumber - 1) * products.PageSize) + 1)–@Math.Min(products.PageNumber * products.PageSize, products.TotalCount)
+        of @products.TotalCount products
+    </p>
+}

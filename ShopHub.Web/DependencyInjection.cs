@@ -15,6 +15,7 @@ public static class DependencyInjection
 
 
         services.AddHttpContextAccessor();
+        services.AddMemoryCache();
         services.AddDistributedMemoryCache();
         services.AddSession();
         services.AddScoped<ICartSession, SessionCartSession>();

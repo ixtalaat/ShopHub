@@ -1,5 +1,10 @@
+using System.Globalization;
 using ShopHub.Web;
 using ShopHub.Data.Seed;
+
+var cultureInfo = new CultureInfo("en-EG");
+CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 var builder = WebApplication.CreateBuilder(args);
 

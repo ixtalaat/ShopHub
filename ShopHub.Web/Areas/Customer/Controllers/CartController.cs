@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ShopHub.Business.Interfaces.Services;
 using ShopHub.Web.ViewModels;
 

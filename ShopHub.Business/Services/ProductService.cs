@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ShopHub.Entities.Models;
+using ShopHub.Business.Dtos.Common;
 using ShopHub.Business.Dtos.Product;
 using ShopHub.Business.Interfaces.Repositories;
 using ShopHub.Business.Interfaces.Services;
@@ -23,6 +24,13 @@ internal class ProductService(
     public async Task<IReadOnlyList<ProductListDto>> GetAllWithCategoryAsync(CancellationToken cancellationToken = default)
     {
         return await _unitOfWork.Products.GetAllWithCategoryAsync(cancellationToken);
+    }
+
+    public async Task<PagedResult<ProductListDto>> GetPagedWithCategoryAsync(
+        ProductQueryParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        return await _unitOfWork.Products.GetPagedWithCategoryAsync(parameters, cancellationToken);
     }
 
     public async Task<ProductDto?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
