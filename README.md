@@ -45,6 +45,35 @@ A modern ASP.NET Core MVC E-Commerce application built using a **3-Tier Architec
 - Responsive Design
 - Session Configuration
 
+### Product Image Management
+
+- Dedicated File Service (`IFileService` / `LocalFileService`)
+- Upload Images to `wwwroot/uploads/products`
+- Unique File Naming with GUID
+- Extension Validation (jpg, jpeg, png, webp)
+- File Size Validation (max 2 MB)
+- Old Image Cleanup on Edit / Delete
+- Placeholder Image for Products Without an Image
+
+### Shopping Cart (Session-Based)
+
+- Session-Based Cart (No Login Required)
+- Add / Remove Cart Items
+- Increase / Decrease Item Quantity
+- Clear Cart
+- Cart Stored as JSON in Session (DistributedMemoryCache)
+- Order Total Calculation
+
+### Product Browsing Optimization
+
+- Server-Side Pagination (Page Number & Page Size)
+- Previous / Next Navigation
+- Search by Product Name & Description
+- Sorting by Name (Asc/Desc) and Price (Asc/Desc)
+- Search, Sorting, and Pagination Work Together
+- Category List Caching with `MemoryCache` (30 minutes)
+- Cache Invalidation on Category Create / Update / Delete
+
 ---
 
 # 📦 Modules
@@ -84,6 +113,35 @@ A modern ASP.NET Core MVC E-Commerce application built using a **3-Tier Architec
 - Register
 - Login
 - Logout
+
+---
+
+## Product Image Management
+
+- Upload Product Image
+- Validate Image Extension & Size
+- Replace Image on Edit
+- Delete Image on Product Delete
+- Placeholder Image Fallback
+
+---
+
+## Shopping Cart
+
+- Add to Cart
+- Remove from Cart
+- Increase / Decrease Quantity
+- Clear Cart
+- View Cart with Order Total
+
+---
+
+## Product Browsing
+
+- Pagination (Page Number / Page Size)
+- Search by Name & Description
+- Sort by Name / Price
+- Cached Category List
 
 ---
 
@@ -180,37 +238,48 @@ After running the application, a default administrator account is seeded automat
 
 ## Register
 
-![Register](docs/screenshots/register.png)
+![Register](docs/screenshots/sprint1/register.png)
 
 ---
 
 ## Login
 
-![Login](docs/screenshots/login.png)
+![Login](docs/screenshots/sprint1/login.png)
 
 ---
 
 ## Categories Management
 
-![Categories Management](docs/screenshots/categories.png)
+![Categories Management](docs/screenshots/sprint1/categories.png)
 
 ---
 
 ## Products Management
 
-![Products Management](docs/screenshots/products.png)
+![Products Management](docs/screenshots/sprint1/products.png)
 
 ---
 
 ## User Management
 
-![User Management](docs/screenshots/users.png)
+![User Management](docs/screenshots/sprint1/users.png)
+
+---
+
+## Shopping Cart
+
+![Shopping Cart](docs/screenshots/sprint2/cart.png)
+
+---
+
+## Product Browsing (Search, Sort & Pagination)
+
+![Product Browsing](docs/screenshots/sprint2/product-browsing.png)
 
 ---
 
 # 📈 Future Improvements
 
-- Shopping Cart
 - Checkout
 - Orders
 - Payment Integration (Stripe)
@@ -232,6 +301,10 @@ This project demonstrates:
 - Entity Framework Core
 - AutoMapper
 - Clean Code Practices
+- File Upload & Media Management
+- Session State Management
+- Server-Side Pagination, Search & Sorting
+- In-Memory Caching
 
 ---
 
