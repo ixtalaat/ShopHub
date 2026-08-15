@@ -1,6 +1,6 @@
 ﻿@{
-    ViewBag.PageTitle = "Products Management";
-    ViewBag.CardTitle = "View Products";
+    ViewBag.PageTitle = "Users Management";
+    ViewBag.CardTitle = "View Users";
     Layout = "~/Views/Shared/_Dashboard.cshtml";
 }
 
@@ -105,32 +105,34 @@
 
     <div class="custom-card-title">
         <i class="fa-solid fa-box-open me-2"></i>
-        Products List
+        User List
     </div>
 
-    <div class="top-btn">
-        <a asp-controller="Product"
+    @* <div class="top-btn">
+        <a asp-controller="User"
            asp-action="Create"
            class="btn btn-primary">
             <i class="fa-solid fa-circle-plus me-1"></i>
-            Create Product
+            Create User
         </a>
-    </div>
+    </div> *@
 
     <table id="mytable" class="display table-hover" width="100%">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Category</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Is Locked</th>
                 <th style="width:130px;">Actions</th>
             </tr>
         </thead>
+        <tbody>
+        </tbody>
     </table>
 
 </div>
 
 @section Scripts {
-    <script src="~/js/products.js"></script>
+    <script src="~/js/users.js"></script>
 }

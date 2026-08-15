@@ -6,7 +6,7 @@ $(document).ready(function () {
 function loadData() {
     dtble = $("#mytable").DataTable({
         ajax: {
-            url: "/User/GetData",
+            url: "/Admin/User/GetData",
             type: "GET",
             dataSrc: "data"
         },
@@ -19,11 +19,11 @@ function loadData() {
                 data: "id",
                 render: function (id) {
                     return `
-                        <a href="/User/Edit/${id}" class="btn btn-success btn-sm">
+                        <a href="/Admin/User/Edit/${id}" class="btn btn-success btn-sm">
                             <i class="fa-solid fa-pen"></i>
                         </a>
 
-                        <button class="btn btn-danger btn-sm" onclick="deleteUser('/User/Delete/${id}')">
+                        <button class="btn btn-danger btn-sm" onclick="deleteUser('/Admin/User/Delete/${id}')">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     `;

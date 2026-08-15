@@ -8,6 +8,7 @@ using ShopHub.Entities.Constants;
 
 namespace ShopHub.Web.Areas.Admin.Controllers;
 
+[Area("Admin")]
 [Authorize(Policy = Policies.AdminAccess)]
 public class ProductController(
     IProductService productService,

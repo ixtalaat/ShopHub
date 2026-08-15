@@ -9,6 +9,8 @@ using ShopHub.Entities.Constants;
 using System.Security.Claims;
 
 namespace ShopHub.Web.Areas.Admin.Controllers;
+
+[Area("Admin")]
 [Authorize(Policy = Policies.AdminAccess)]
 public class UserController(IUserService userService, RoleManager<IdentityRole> roleManager) : Controller
 {

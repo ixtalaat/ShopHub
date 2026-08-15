@@ -2,8 +2,9 @@
 using ShopHub.Web.ViewModels;
 using System.Diagnostics;
 
-namespace ShopHub.Web.Controllers;
+namespace ShopHub.Web.Areas.Customer.Controllers;
 
+[Area("Customer")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
